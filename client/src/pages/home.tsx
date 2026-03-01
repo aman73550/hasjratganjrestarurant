@@ -307,13 +307,13 @@ function HeroSection() {
           src="/images/hero-banquet.png"
           alt="Hazratgunj Banquet Hall Interior"
           className="w-full h-full object-cover"
-          style={{ filter: "brightness(0.85) saturate(1.15)" }}
+          style={{ filter: "brightness(0.65) saturate(1.1)" }}
         />
         <div className="absolute inset-0" style={{
-          background: "linear-gradient(180deg, rgba(3,2,1,0.7) 0%, rgba(3,2,1,0.25) 35%, rgba(3,2,1,0.15) 50%, rgba(3,2,1,0.4) 75%, rgba(3,2,1,0.9) 100%)"
+          background: "linear-gradient(180deg, rgba(3,2,1,0.85) 0%, rgba(3,2,1,0.55) 30%, rgba(3,2,1,0.45) 50%, rgba(3,2,1,0.55) 70%, rgba(3,2,1,0.92) 100%)"
         }} />
         <div className="absolute inset-0" style={{
-          background: "radial-gradient(ellipse at center 40%, transparent 0%, rgba(3,2,1,0.5) 70%)"
+          background: "radial-gradient(ellipse at center 45%, rgba(3,2,1,0.2) 0%, rgba(3,2,1,0.6) 70%)"
         }} />
       </motion.div>
 
@@ -327,7 +327,7 @@ function HeroSection() {
           className="mb-4 md:mb-6"
         >
           <span className="inline-flex items-center gap-1.5 md:gap-2 text-[9px] md:text-xs tracking-[0.25em] md:tracking-[0.4em] uppercase text-gold font-sans px-4 md:px-5 py-2 md:py-2.5 rounded-full"
-            style={{ background: "rgba(212,175,55,0.08)", border: "1px solid rgba(212,175,55,0.25)", backdropFilter: "blur(8px)" }}>
+            style={{ background: "rgba(212,175,55,0.12)", border: "1px solid rgba(212,175,55,0.35)", backdropFilter: "blur(12px)" }}>
             <Sparkles className="w-2.5 h-2.5 md:w-3 md:h-3" />
             Gorakhpur's Premier Boutique Banquet
             <Sparkles className="w-2.5 h-2.5 md:w-3 md:h-3" />
@@ -335,8 +335,8 @@ function HeroSection() {
         </motion.div>
 
         <motion.h1
-          className="font-serif text-white mb-3 md:mb-6 leading-[1.1]"
-          style={{ fontSize: "clamp(1.9rem, 6vw, 5rem)", textShadow: "0 4px 60px rgba(0,0,0,0.6), 0 0 120px rgba(212,175,55,0.1)" }}
+          className="font-serif text-white mb-3 md:mb-6 leading-[1.1] font-bold"
+          style={{ fontSize: "clamp(1.9rem, 6vw, 5rem)", textShadow: "0 2px 20px rgba(0,0,0,0.9), 0 4px 60px rgba(0,0,0,0.7), 0 0 100px rgba(0,0,0,0.5)" }}
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
@@ -353,7 +353,6 @@ function HeroSection() {
           </motion.span>{" "}
           <motion.span
             className="inline-block italic"
-            style={{ fontWeight: 400 }}
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, delay: 1 }}
@@ -368,19 +367,20 @@ function HeroSection() {
           animate={{ opacity: 1, scaleX: 1 }}
           transition={{ duration: 0.8, delay: 1.1 }}
         >
-          <div className="h-px flex-1 max-w-[50px] md:max-w-[100px]" style={{ background: "linear-gradient(90deg, transparent, rgba(212,175,55,0.5))" }} />
+          <div className="h-px flex-1 max-w-[50px] md:max-w-[100px]" style={{ background: "linear-gradient(90deg, transparent, rgba(212,175,55,0.6))" }} />
           <Star className="w-3 h-3 text-gold fill-gold" />
-          <div className="h-px flex-1 max-w-[50px] md:max-w-[100px]" style={{ background: "linear-gradient(90deg, rgba(212,175,55,0.5), transparent)" }} />
+          <div className="h-px flex-1 max-w-[50px] md:max-w-[100px]" style={{ background: "linear-gradient(90deg, rgba(212,175,55,0.6), transparent)" }} />
         </motion.div>
 
         <motion.p
-          className="text-white/70 text-sm md:text-lg max-w-xl mx-auto mb-6 md:mb-10 font-sans font-light leading-relaxed"
+          className="text-white/85 text-sm md:text-lg max-w-xl mx-auto mb-6 md:mb-10 font-sans leading-relaxed"
+          style={{ textShadow: "0 1px 10px rgba(0,0,0,0.8), 0 2px 30px rgba(0,0,0,0.5)" }}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.2 }}
         >
           Experience Gorakhpur's first wall-lit boutique banquet hall —
-          <span className="text-white/90"> a symphony of Awadhi tradition</span> and ultra-modern luxury.
+          <span className="text-white"> a symphony of Awadhi tradition</span> and ultra-modern luxury.
         </motion.p>
 
         <motion.div
