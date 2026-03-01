@@ -319,7 +319,7 @@ function HeroSection() {
 
       <GoldenParticles />
 
-      <motion.div className="relative z-10 text-center px-5 md:px-6 max-w-5xl mx-auto pt-20 pb-20 md:pt-0 md:pb-0" style={{ opacity }}>
+      <motion.div className="relative z-10 text-center px-5 md:px-6 max-w-5xl mx-auto pt-24 pb-20 md:pt-24 md:pb-0" style={{ opacity }}>
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -427,9 +427,8 @@ function HeroSection() {
           </div>
           <div className="w-px h-7 md:h-10" style={{ background: "rgba(212,175,55,0.2)" }} />
           <div className="text-center">
-            <div className="font-serif text-xl md:text-3xl font-bold text-gold leading-none flex items-center justify-center gap-0.5">
-              <AnimatedCounter target={49} />
-              <span className="text-sm md:text-lg">/5</span>
+            <div className="font-serif text-xl md:text-3xl font-bold text-gold leading-none">
+              4.9<span className="text-sm md:text-lg">/5</span>
             </div>
             <div className="text-[8px] md:text-[10px] tracking-[0.12em] md:tracking-[0.2em] uppercase mt-1 font-sans text-white/50">Rating</div>
           </div>
