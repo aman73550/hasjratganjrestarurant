@@ -301,7 +301,7 @@ function HeroSection() {
   const scale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
 
   return (
-    <section ref={ref} className="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden" id="hero">
+    <section ref={ref} className="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden" id="hero">
       <motion.div className="absolute inset-0" style={{ y, scale }}>
         <img
           src="/images/hero-banquet.png"
@@ -319,51 +319,24 @@ function HeroSection() {
 
       <GoldenParticles />
 
-      <div className="absolute top-0 left-0 w-32 h-32 pointer-events-none z-[2] hidden md:block" style={{ opacity: 0.15 }}>
-        <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M2 2 L2 60" stroke="#D4AF37" strokeWidth="1" />
-          <path d="M2 2 L60 2" stroke="#D4AF37" strokeWidth="1" />
-          <path d="M2 2 L20 20" stroke="#D4AF37" strokeWidth="0.5" />
-        </svg>
-      </div>
-      <div className="absolute top-0 right-0 w-32 h-32 pointer-events-none z-[2] hidden md:block" style={{ opacity: 0.15, transform: "scaleX(-1)" }}>
-        <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M2 2 L2 60" stroke="#D4AF37" strokeWidth="1" />
-          <path d="M2 2 L60 2" stroke="#D4AF37" strokeWidth="1" />
-          <path d="M2 2 L20 20" stroke="#D4AF37" strokeWidth="0.5" />
-        </svg>
-      </div>
-      <div className="absolute bottom-0 left-0 w-32 h-32 pointer-events-none z-[2] hidden md:block" style={{ opacity: 0.15, transform: "scaleY(-1)" }}>
-        <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M2 2 L2 60" stroke="#D4AF37" strokeWidth="1" />
-          <path d="M2 2 L60 2" stroke="#D4AF37" strokeWidth="1" />
-        </svg>
-      </div>
-      <div className="absolute bottom-0 right-0 w-32 h-32 pointer-events-none z-[2] hidden md:block" style={{ opacity: 0.15, transform: "scale(-1)" }}>
-        <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M2 2 L2 60" stroke="#D4AF37" strokeWidth="1" />
-          <path d="M2 2 L60 2" stroke="#D4AF37" strokeWidth="1" />
-        </svg>
-      </div>
-
-      <motion.div className="relative z-10 text-center px-6 max-w-5xl mx-auto py-24 md:py-0" style={{ opacity }}>
+      <motion.div className="relative z-10 text-center px-5 md:px-6 max-w-5xl mx-auto pt-20 pb-20 md:pt-0 md:pb-0" style={{ opacity }}>
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 0.2 }}
-          className="mb-5 md:mb-6"
+          className="mb-4 md:mb-6"
         >
-          <span className="inline-flex items-center gap-2 text-[10px] md:text-xs tracking-[0.35em] md:tracking-[0.4em] uppercase text-gold font-sans px-5 py-2.5 rounded-full"
+          <span className="inline-flex items-center gap-1.5 md:gap-2 text-[9px] md:text-xs tracking-[0.25em] md:tracking-[0.4em] uppercase text-gold font-sans px-4 md:px-5 py-2 md:py-2.5 rounded-full"
             style={{ background: "rgba(212,175,55,0.08)", border: "1px solid rgba(212,175,55,0.25)", backdropFilter: "blur(8px)" }}>
-            <Sparkles className="w-3 h-3" />
+            <Sparkles className="w-2.5 h-2.5 md:w-3 md:h-3" />
             Gorakhpur's Premier Boutique Banquet
-            <Sparkles className="w-3 h-3" />
+            <Sparkles className="w-2.5 h-2.5 md:w-3 md:h-3" />
           </span>
         </motion.div>
 
         <motion.h1
-          className="font-serif text-white mb-5 md:mb-6 leading-[1.1]"
-          style={{ fontSize: "clamp(2.2rem, 6.5vw, 5rem)", textShadow: "0 4px 60px rgba(0,0,0,0.6), 0 0 120px rgba(212,175,55,0.1)" }}
+          className="font-serif text-white mb-3 md:mb-6 leading-[1.1]"
+          style={{ fontSize: "clamp(1.9rem, 6vw, 5rem)", textShadow: "0 4px 60px rgba(0,0,0,0.6), 0 0 120px rgba(212,175,55,0.1)" }}
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
@@ -390,18 +363,18 @@ function HeroSection() {
         </motion.h1>
 
         <motion.div
-          className="flex items-center justify-center gap-4 mb-5 md:mb-6"
+          className="flex items-center justify-center gap-4 mb-3 md:mb-6"
           initial={{ opacity: 0, scaleX: 0 }}
           animate={{ opacity: 1, scaleX: 1 }}
           transition={{ duration: 0.8, delay: 1.1 }}
         >
-          <div className="h-px flex-1 max-w-[60px] md:max-w-[100px]" style={{ background: "linear-gradient(90deg, transparent, rgba(212,175,55,0.5))" }} />
+          <div className="h-px flex-1 max-w-[50px] md:max-w-[100px]" style={{ background: "linear-gradient(90deg, transparent, rgba(212,175,55,0.5))" }} />
           <Star className="w-3 h-3 text-gold fill-gold" />
-          <div className="h-px flex-1 max-w-[60px] md:max-w-[100px]" style={{ background: "linear-gradient(90deg, rgba(212,175,55,0.5), transparent)" }} />
+          <div className="h-px flex-1 max-w-[50px] md:max-w-[100px]" style={{ background: "linear-gradient(90deg, rgba(212,175,55,0.5), transparent)" }} />
         </motion.div>
 
         <motion.p
-          className="text-white/70 text-base md:text-lg max-w-xl mx-auto mb-8 md:mb-10 font-sans font-light leading-relaxed"
+          className="text-white/70 text-sm md:text-lg max-w-xl mx-auto mb-6 md:mb-10 font-sans font-light leading-relaxed"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.2 }}
@@ -411,17 +384,17 @@ function HeroSection() {
         </motion.p>
 
         <motion.div
-          className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-10 md:mb-14"
+          className="flex flex-row items-center justify-center gap-3 mb-6 md:mb-14"
           initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.4 }}
         >
           <a href="tel:+919076923170">
             <Button
-              className="gold-gradient-bg text-black font-bold text-sm md:text-base px-8 py-5 md:py-6 border-0 tracking-wider w-full sm:w-auto"
+              className="gold-gradient-bg text-black font-bold text-xs md:text-base px-5 md:px-8 border-0 tracking-wider"
               data-testid="button-book-event"
             >
-              Book Your Event <ArrowRight className="w-4 h-4 ml-2" />
+              Book Your Event <ArrowRight className="w-3.5 h-3.5 md:w-4 md:h-4 ml-1.5 md:ml-2" />
             </Button>
           </a>
           <a
@@ -430,7 +403,7 @@ function HeroSection() {
           >
             <Button
               variant="outline"
-              className="border-white/30 text-white font-semibold text-sm md:text-base px-8 py-5 md:py-6 tracking-wider w-full sm:w-auto"
+              className="border-white/30 text-white font-semibold text-xs md:text-base px-5 md:px-8 tracking-wider"
               style={{ background: "rgba(255,255,255,0.06)", backdropFilter: "blur(12px)" }}
               data-testid="button-view-menu"
             >
@@ -440,38 +413,38 @@ function HeroSection() {
         </motion.div>
 
         <motion.div
-          className="inline-flex items-center gap-4 sm:gap-6 md:gap-8 px-6 md:px-10 py-4 md:py-5 rounded-full"
+          className="inline-flex items-center gap-4 sm:gap-6 md:gap-8 px-5 md:px-10 py-3 md:py-5 rounded-full"
           style={{ background: "rgba(6,4,2,0.5)", border: "1px solid rgba(212,175,55,0.15)", backdropFilter: "blur(16px)" }}
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 1.6 }}
         >
           <div className="text-center">
-            <div className="font-serif text-2xl md:text-3xl font-bold text-gold leading-none">
+            <div className="font-serif text-xl md:text-3xl font-bold text-gold leading-none">
               <AnimatedCounter target={600} suffix="+" />
             </div>
-            <div className="text-[9px] md:text-[10px] tracking-[0.15em] md:tracking-[0.2em] uppercase mt-1 font-sans text-white/50">Guests</div>
+            <div className="text-[8px] md:text-[10px] tracking-[0.12em] md:tracking-[0.2em] uppercase mt-1 font-sans text-white/50">Guests</div>
           </div>
-          <div className="w-px h-8 md:h-10" style={{ background: "rgba(212,175,55,0.2)" }} />
+          <div className="w-px h-7 md:h-10" style={{ background: "rgba(212,175,55,0.2)" }} />
           <div className="text-center">
-            <div className="font-serif text-2xl md:text-3xl font-bold text-gold leading-none flex items-center gap-1">
+            <div className="font-serif text-xl md:text-3xl font-bold text-gold leading-none flex items-center justify-center gap-0.5">
               <AnimatedCounter target={49} />
-              <span className="text-lg" style={{ transform: "translateY(-2px)" }}>/5</span>
+              <span className="text-sm md:text-lg">/5</span>
             </div>
-            <div className="text-[9px] md:text-[10px] tracking-[0.15em] md:tracking-[0.2em] uppercase mt-1 font-sans text-white/50">Rating</div>
+            <div className="text-[8px] md:text-[10px] tracking-[0.12em] md:tracking-[0.2em] uppercase mt-1 font-sans text-white/50">Rating</div>
           </div>
-          <div className="w-px h-8 md:h-10" style={{ background: "rgba(212,175,55,0.2)" }} />
+          <div className="w-px h-7 md:h-10" style={{ background: "rgba(212,175,55,0.2)" }} />
           <div className="text-center">
-            <div className="font-serif text-2xl md:text-3xl font-bold text-gold leading-none">
+            <div className="font-serif text-xl md:text-3xl font-bold text-gold leading-none">
               <AnimatedCounter target={500} suffix="+" />
             </div>
-            <div className="text-[9px] md:text-[10px] tracking-[0.15em] md:tracking-[0.2em] uppercase mt-1 font-sans text-white/50">Events</div>
+            <div className="text-[8px] md:text-[10px] tracking-[0.12em] md:tracking-[0.2em] uppercase mt-1 font-sans text-white/50">Events</div>
           </div>
         </motion.div>
       </motion.div>
 
       <motion.div
-        className="absolute bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 text-white/30 flex flex-col items-center gap-1 z-10"
+        className="absolute bottom-16 lg:bottom-8 left-1/2 -translate-x-1/2 text-white/30 flex-col items-center gap-1 z-10 hidden md:flex"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2.5 }}
