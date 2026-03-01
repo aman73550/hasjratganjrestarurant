@@ -571,7 +571,7 @@ function BanquetSection() {
               <p className="text-white/65 font-sans text-sm leading-relaxed mb-5">
                 Located at UGF, Ayodhya Prasad Apartments, Airport Road, Mohaddipur — easily accessible from every part of Gorakhpur.
               </p>
-              <a href="https://maps.google.com/?q=Airport+Road+Mohaddipur+Gorakhpur" target="_blank" rel="noopener noreferrer">
+              <a href="https://maps.app.goo.gl/d1m1vmQ7F4QP3Pdx7" target="_blank" rel="noopener noreferrer">
                 <Button variant="outline" className="border-gold/50 text-gold font-semibold text-sm tracking-wider" style={{ background: "rgba(212,175,55,0.08)" }} data-testid="button-directions">
                   Get Directions <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
@@ -1139,7 +1139,7 @@ function ContactSection() {
                 <p className="text-white font-serif text-base">Airport Road, Gorakhpur</p>
                 <p className="text-white/45 text-xs font-sans mt-0.5">Near Mohaddipur Chowk</p>
               </div>
-              <a href="https://maps.google.com/?q=Airport+Road+Mohaddipur+Gorakhpur" target="_blank" rel="noopener noreferrer">
+              <a href="https://maps.app.goo.gl/d1m1vmQ7F4QP3Pdx7" target="_blank" rel="noopener noreferrer">
                 <Button className="gold-gradient-bg text-black font-semibold text-xs tracking-wider border-0" data-testid="button-open-maps">
                   Open Maps
                 </Button>
@@ -1271,7 +1271,7 @@ function MobileStickyBar() {
           <SiWhatsapp className="w-5 h-5 text-gold" />
           <span className="text-white/70 text-xs font-sans tracking-wider">WhatsApp</span>
         </a>
-        <a href="https://maps.google.com/?q=Airport+Road+Mohaddipur+Gorakhpur" target="_blank" rel="noopener noreferrer"
+        <a href="https://maps.app.goo.gl/d1m1vmQ7F4QP3Pdx7" target="_blank" rel="noopener noreferrer"
           className="flex-1 flex flex-col items-center justify-center py-3 gap-1"
           data-testid="button-sticky-directions">
           <MapPin className="w-5 h-5 text-gold" />
