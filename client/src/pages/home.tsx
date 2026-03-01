@@ -1240,7 +1240,7 @@ function Footer() {
           </p>
           <div className="mt-4 p-4 rounded-md" style={{ background: "rgba(212,175,55,0.04)", border: "1px solid rgba(212,175,55,0.08)" }}>
             <p className="text-white/35 text-xs font-sans leading-relaxed">
-              Designed & Developed with care by <span className="text-gold/70 font-semibold">Aman Gupta</span> | @amangupta.yt
+              Designed & Developed with care by <span className="text-gold/70 font-semibold">Aman Gupta</span> | <a href="https://www.instagram.com/amangupta.yt" target="_blank" rel="noopener noreferrer" className="text-gold/70 underline underline-offset-2">@amangupta.yt</a>
             </p>
             <p className="text-white/20 text-xs font-sans mt-1">
               Chief Digital Architect &nbsp;•&nbsp; Crafting Digital Excellence for Gorakhpur's Elite Businesses
