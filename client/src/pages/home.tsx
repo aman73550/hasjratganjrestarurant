@@ -1,15 +1,33 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
-import { Phone, MapPin, Star, ChevronDown, Menu, X, Utensils, Users, Car, Mic2, Music2, Sparkles, ArrowRight, Quote, Instagram, Facebook, Clock, Mail } from "lucide-react";
+import { Phone, MapPin, Star, ChevronDown, Menu, X, Utensils, Users, Car, Mic2, Music2, Sparkles, ArrowRight, Quote, Instagram, Facebook, Clock, Mail, ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SiFacebook, SiInstagram, SiWhatsapp } from "react-icons/si";
 
 const NAV_LINKS = [
   { label: "Banquet", href: "#banquet" },
   { label: "Cuisine", href: "#cuisine" },
-  { label: "Amenities", href: "#amenities" },
+  { label: "Gallery", href: "#gallery" },
   { label: "Reviews", href: "#reviews" },
   { label: "Contact", href: "#contact" },
+];
+
+const VENUE_GALLERY = [
+  { src: "/images/gallery-hall-1.png", title: "Grand Banquet Hall", desc: "600+ seat capacity with signature wall-lit LED panels" },
+  { src: "/images/gallery-hall-2.png", title: "Fine Dining Lounge", desc: "Intimate dining area with warm golden ambiance" },
+  { src: "/images/gallery-hall-3.png", title: "Wedding Stage", desc: "Exquisite wedding mandap with floral decor" },
+  { src: "/images/gallery-hall-4.png", title: "Bridal Suite", desc: "Ultra-modern bridal dressing room" },
+  { src: "/images/gallery-hall-5.png", title: "Grand Entrance", desc: "Majestic corridor with golden wall lighting" },
+  { src: "/images/gallery-hall-6.png", title: "Terrace Lounge", desc: "Open-air event space with fairy lights" },
+];
+
+const FOOD_GALLERY = [
+  { src: "/images/food-galawat.png", title: "Mutton Galawat Kebab", desc: "Silver leaf garnished, melt-in-mouth perfection" },
+  { src: "/images/food-biryani.png", title: "Awadhi Dum Biryani", desc: "Slow-cooked in a traditional copper handi" },
+  { src: "/images/food-angara.png", title: "Angara Seekh Kebab", desc: "Live charcoal roasted with aromatic spices" },
+  { src: "/images/food-thali.png", title: "Royal Thali Platter", desc: "A grand spread of North Indian favorites" },
+  { src: "/images/food-tandoori.png", title: "Tandoori Chicken Tikka", desc: "Charred and succulent, served on banana leaf" },
+  { src: "/images/food-desserts.png", title: "Heritage Desserts", desc: "Gulab jamun, rasmalai & kulfi selection" },
 ];
 
 const REVIEWS = [
@@ -592,6 +610,204 @@ function AmenitiesSection() {
   );
 }
 
+function GalleryLightbox({ images, activeIndex, onClose, onPrev, onNext }: {
+  images: typeof VENUE_GALLERY;
+  activeIndex: number;
+  onClose: () => void;
+  onPrev: () => void;
+  onNext: () => void;
+}) {
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+      if (e.key === "ArrowLeft") onPrev();
+      if (e.key === "ArrowRight") onNext();
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [onClose, onPrev, onNext]);
+
+  return (
+    <motion.div
+      className="fixed inset-0 z-[70] flex items-center justify-center"
+      style={{ background: "rgba(0,0,0,0.92)" }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onClick={onClose}
+    >
+      <button className="absolute top-6 right-6 text-white/70 z-10 p-2" onClick={onClose} data-testid="button-lightbox-close">
+        <X className="w-7 h-7" />
+      </button>
+      <button className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 text-white/60 p-2 z-10" onClick={(e) => { e.stopPropagation(); onPrev(); }} data-testid="button-lightbox-prev">
+        <ChevronLeft className="w-8 h-8" />
+      </button>
+      <button className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 text-white/60 p-2 z-10" onClick={(e) => { e.stopPropagation(); onNext(); }} data-testid="button-lightbox-next">
+        <ChevronRight className="w-8 h-8" />
+      </button>
+
+      <motion.div
+        className="max-w-5xl w-full mx-4 md:mx-8"
+        key={activeIndex}
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.95 }}
+        transition={{ duration: 0.25 }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <img
+          src={images[activeIndex].src}
+          alt={images[activeIndex].title}
+          className="w-full max-h-[75vh] object-contain rounded-md"
+        />
+        <div className="text-center mt-5">
+          <h3 className="font-serif text-white text-xl">{images[activeIndex].title}</h3>
+          <p className="text-white/50 font-sans text-sm mt-1">{images[activeIndex].desc}</p>
+          <p className="text-gold/50 text-xs font-sans mt-3">{activeIndex + 1} / {images.length}</p>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+function GallerySection() {
+  const [lightbox, setLightbox] = useState<{ images: typeof VENUE_GALLERY; index: number } | null>(null);
+
+  const openLightbox = useCallback((images: typeof VENUE_GALLERY, index: number) => {
+    setLightbox({ images, index });
+  }, []);
+
+  const closeLightbox = useCallback(() => setLightbox(null), []);
+
+  const prevImage = useCallback(() => {
+    if (!lightbox) return;
+    setLightbox(prev => prev ? { ...prev, index: (prev.index - 1 + prev.images.length) % prev.images.length } : null);
+  }, [lightbox]);
+
+  const nextImage = useCallback(() => {
+    if (!lightbox) return;
+    setLightbox(prev => prev ? { ...prev, index: (prev.index + 1) % prev.images.length } : null);
+  }, [lightbox]);
+
+  return (
+    <section id="gallery" className="py-28 relative overflow-hidden" style={{ background: "#060402" }}>
+      <div className="absolute right-0 bottom-0 w-80 h-80 rounded-full opacity-10"
+        style={{ background: "radial-gradient(circle, rgba(212,175,55,0.3) 0%, transparent 70%)", filter: "blur(60px)" }}
+      />
+
+      <div className="max-w-7xl mx-auto px-6">
+        <motion.div
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+        >
+          <span className="text-xs tracking-[0.4em] uppercase text-gold font-sans">Visual Journey</span>
+          <h2 className="font-serif text-white mt-3 mb-5" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}>
+            Our Venue Gallery
+          </h2>
+          <div className="section-divider" />
+          <p className="text-white/60 max-w-xl mx-auto mt-6 font-sans leading-relaxed">
+            Step inside Gorakhpur's most spectacular celebration venue — where every corner tells a story of elegance.
+          </p>
+        </motion.div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-28">
+          {VENUE_GALLERY.map((item, i) => (
+            <motion.div
+              key={item.src}
+              className="group relative rounded-md overflow-hidden cursor-pointer"
+              style={{ height: i === 0 || i === 5 ? "320px" : "280px" }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.08 * i, duration: 0.6 }}
+              onClick={() => openLightbox(VENUE_GALLERY, i)}
+              data-testid={`gallery-venue-${i}`}
+            >
+              <img
+                src={item.src}
+                alt={item.title}
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
+                <div className="flex items-center gap-2 mb-2">
+                  <ZoomIn className="w-4 h-4 text-gold" />
+                  <span className="text-gold text-xs tracking-widest uppercase font-sans">View</span>
+                </div>
+                <h3 className="font-serif text-white text-lg">{item.title}</h3>
+                <p className="text-white/60 font-sans text-xs mt-1">{item.desc}</p>
+              </div>
+              <div className="absolute inset-0 border border-gold/0 group-hover:border-gold/30 transition-colors duration-300 rounded-md pointer-events-none" />
+            </motion.div>
+          ))}
+        </div>
+
+        <motion.div
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+        >
+          <span className="text-xs tracking-[0.4em] uppercase text-gold font-sans">Culinary Artistry</span>
+          <h2 className="font-serif text-white mt-3 mb-5" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}>
+            Food Gallery
+          </h2>
+          <div className="section-divider" />
+          <p className="text-white/60 max-w-xl mx-auto mt-6 font-sans leading-relaxed">
+            A feast for the eyes before it becomes a feast for the palate — our signature Awadhi and multi-cuisine creations.
+          </p>
+        </motion.div>
+
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+          {FOOD_GALLERY.map((item, i) => (
+            <motion.div
+              key={item.src}
+              className="group relative rounded-md overflow-hidden cursor-pointer"
+              style={{ height: i % 3 === 1 ? "320px" : "280px" }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.08 * i, duration: 0.6 }}
+              onClick={() => openLightbox(FOOD_GALLERY, i)}
+              data-testid={`gallery-food-${i}`}
+            >
+              <img
+                src={item.src}
+                alt={item.title}
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
+                <div className="flex items-center gap-2 mb-2">
+                  <ZoomIn className="w-4 h-4 text-gold" />
+                  <span className="text-gold text-xs tracking-widest uppercase font-sans">View</span>
+                </div>
+                <h3 className="font-serif text-white text-lg">{item.title}</h3>
+                <p className="text-white/60 font-sans text-xs mt-1">{item.desc}</p>
+              </div>
+              <div className="absolute inset-0 border border-gold/0 group-hover:border-gold/30 transition-colors duration-300 rounded-md pointer-events-none" />
+            </motion.div>
+          ))}
+        </div>
+      </div>
+
+      <AnimatePresence>
+        {lightbox && (
+          <GalleryLightbox
+            images={lightbox.images}
+            activeIndex={lightbox.index}
+            onClose={closeLightbox}
+            onPrev={prevImage}
+            onNext={nextImage}
+          />
+        )}
+      </AnimatePresence>
+    </section>
+  );
+}
+
 function ReviewsSection() {
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -944,6 +1160,7 @@ export default function Home() {
       <BanquetSection />
       <CuisineSection />
       <AmenitiesSection />
+      <GallerySection />
       <ReviewsSection />
       <ContactSection />
       <Footer />

@@ -14,9 +14,11 @@ A stunning luxury landing page for Hazratgunj Restaurant and Banquet Hall, Gorak
 2. **Banquet Experience** (#banquet) — 600+ capacity, underground parking, wall-lit interiors
 3. **Culinary Excellence** (#cuisine) — Signature Awadhi dishes + food photography
 4. **Luxury Amenities** (#amenities) — 6 amenity cards with icons
-5. **Social Proof** (#reviews) — 4.9/5 rating, 4 rotating review cards
-6. **Contact & Location** (#contact) — Phone, WhatsApp, address, embedded Google Maps
-7. **Footer** — Quick links, social icons, developer credit (Aman Gupta)
+5. **Venue Gallery** (#gallery) — 6 venue/hotel images in a grid with hover zoom + lightbox
+6. **Food Gallery** (#gallery) — 6 food images in a grid with hover zoom + lightbox
+7. **Social Proof** (#reviews) — 4.9/5 rating, 4 rotating review cards
+8. **Contact & Location** (#contact) — Phone, WhatsApp, address, embedded Google Maps
+9. **Footer** — Quick links, social icons, developer credit (Aman Gupta)
 
 ## Mobile Features
 - Glassmorphism mobile menu (full-screen overlay)
@@ -26,7 +28,10 @@ A stunning luxury landing page for Hazratgunj Restaurant and Banquet Hall, Gorak
 - `client/src/pages/home.tsx` — Full landing page (all sections)
 - `client/src/App.tsx` — Route registration
 - `client/src/index.css` — Custom utilities (gold-gradient, glass-nav, glass-card, shimmer, etc.)
-- `client/public/images/` — AI-generated: hero-banquet.png, food-platter.png, exterior.png
+- `client/public/images/` — AI-generated images:
+  - Hero/Banquet: hero-banquet.png, exterior.png, food-platter.png
+  - Venue Gallery: gallery-hall-1 through gallery-hall-6.png
+  - Food Gallery: food-galawat.png, food-biryani.png, food-angara.png, food-thali.png, food-tandoori.png, food-desserts.png
 
 ## Business Info
 - **Address:** UGF, Ayodhya Prasad Apartments, Airport Road, Mohaddipur, Gorakhpur
