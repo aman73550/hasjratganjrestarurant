@@ -220,68 +220,208 @@ function Navbar() {
   );
 }
 
+function AnimatedCounter({ target, suffix = "" }: { target: number; suffix?: string }) {
+  const [count, setCount] = useState(0);
+  const ref = useRef<HTMLDivElement>(null);
+  const hasAnimated = useRef(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasAnimated.current) {
+          hasAnimated.current = true;
+          const duration = 2000;
+          const startTime = Date.now();
+          const animate = () => {
+            const elapsed = Date.now() - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            setCount(Math.floor(eased * target));
+            if (progress < 1) requestAnimationFrame(animate);
+          };
+          requestAnimationFrame(animate);
+        }
+      },
+      { threshold: 0.5 }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [target]);
+
+  return <span ref={ref}>{count}{suffix}</span>;
+}
+
+function GoldenParticles() {
+  const particles = Array.from({ length: 25 }, (_, i) => ({
+    id: i,
+    x: Math.random() * 100,
+    y: Math.random() * 100,
+    size: Math.random() * 3 + 1,
+    duration: Math.random() * 8 + 6,
+    delay: Math.random() * 5,
+  }));
+
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none z-[1]">
+      {particles.map((p) => (
+        <motion.div
+          key={p.id}
+          className="absolute rounded-full"
+          style={{
+            left: `${p.x}%`,
+            top: `${p.y}%`,
+            width: p.size,
+            height: p.size,
+            background: `radial-gradient(circle, rgba(212,175,55,0.8) 0%, rgba(212,175,55,0) 70%)`,
+            boxShadow: `0 0 ${p.size * 3}px rgba(212,175,55,0.4)`,
+          }}
+          animate={{
+            y: [0, -60, -120],
+            x: [0, Math.random() > 0.5 ? 15 : -15, 0],
+            opacity: [0, 0.9, 0],
+            scale: [0.5, 1, 0.3],
+          }}
+          transition={{
+            duration: p.duration,
+            delay: p.delay,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
 function HeroSection() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
 
   return (
     <section ref={ref} className="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden" id="hero">
-      <motion.div className="absolute inset-0" style={{ y }}>
+      <motion.div className="absolute inset-0" style={{ y, scale }}>
         <img
           src="/images/hero-banquet.png"
           alt="Hazratgunj Banquet Hall Interior"
           className="w-full h-full object-cover"
+          style={{ filter: "brightness(0.85) saturate(1.15)" }}
         />
-        <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(5,3,1,0.6) 0%, rgba(5,3,1,0.3) 50%, rgba(5,3,1,0.8) 100%)" }} />
+        <div className="absolute inset-0" style={{
+          background: "linear-gradient(180deg, rgba(3,2,1,0.7) 0%, rgba(3,2,1,0.25) 35%, rgba(3,2,1,0.15) 50%, rgba(3,2,1,0.4) 75%, rgba(3,2,1,0.9) 100%)"
+        }} />
+        <div className="absolute inset-0" style={{
+          background: "radial-gradient(ellipse at center 40%, transparent 0%, rgba(3,2,1,0.5) 70%)"
+        }} />
       </motion.div>
 
-      <motion.div className="relative z-10 text-center px-6 max-w-5xl mx-auto" style={{ opacity }}>
+      <GoldenParticles />
+
+      <div className="absolute top-0 left-0 w-32 h-32 pointer-events-none z-[2] hidden md:block" style={{ opacity: 0.15 }}>
+        <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 2 L2 60" stroke="#D4AF37" strokeWidth="1" />
+          <path d="M2 2 L60 2" stroke="#D4AF37" strokeWidth="1" />
+          <path d="M2 2 L20 20" stroke="#D4AF37" strokeWidth="0.5" />
+        </svg>
+      </div>
+      <div className="absolute top-0 right-0 w-32 h-32 pointer-events-none z-[2] hidden md:block" style={{ opacity: 0.15, transform: "scaleX(-1)" }}>
+        <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 2 L2 60" stroke="#D4AF37" strokeWidth="1" />
+          <path d="M2 2 L60 2" stroke="#D4AF37" strokeWidth="1" />
+          <path d="M2 2 L20 20" stroke="#D4AF37" strokeWidth="0.5" />
+        </svg>
+      </div>
+      <div className="absolute bottom-0 left-0 w-32 h-32 pointer-events-none z-[2] hidden md:block" style={{ opacity: 0.15, transform: "scaleY(-1)" }}>
+        <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 2 L2 60" stroke="#D4AF37" strokeWidth="1" />
+          <path d="M2 2 L60 2" stroke="#D4AF37" strokeWidth="1" />
+        </svg>
+      </div>
+      <div className="absolute bottom-0 right-0 w-32 h-32 pointer-events-none z-[2] hidden md:block" style={{ opacity: 0.15, transform: "scale(-1)" }}>
+        <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 2 L2 60" stroke="#D4AF37" strokeWidth="1" />
+          <path d="M2 2 L60 2" stroke="#D4AF37" strokeWidth="1" />
+        </svg>
+      </div>
+
+      <motion.div className="relative z-10 text-center px-6 max-w-5xl mx-auto py-24 md:py-0" style={{ opacity }}>
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="mb-4"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1, delay: 0.2 }}
+          className="mb-5 md:mb-6"
         >
-          <span className="inline-block text-xs tracking-[0.4em] uppercase text-gold font-sans mb-6 border border-gold/30 px-4 py-2 rounded-sm">
+          <span className="inline-flex items-center gap-2 text-[10px] md:text-xs tracking-[0.35em] md:tracking-[0.4em] uppercase text-gold font-sans px-5 py-2.5 rounded-full"
+            style={{ background: "rgba(212,175,55,0.08)", border: "1px solid rgba(212,175,55,0.25)", backdropFilter: "blur(8px)" }}>
+            <Sparkles className="w-3 h-3" />
             Gorakhpur's Premier Boutique Banquet
+            <Sparkles className="w-3 h-3" />
           </span>
         </motion.div>
 
         <motion.h1
-          className="font-serif text-white mb-6 leading-tight"
-          style={{ fontSize: "clamp(2.5rem, 7vw, 5.5rem)", textShadow: "0 2px 40px rgba(0,0,0,0.5)" }}
-          initial={{ opacity: 0, y: 40 }}
+          className="font-serif text-white mb-5 md:mb-6 leading-[1.1]"
+          style={{ fontSize: "clamp(2.2rem, 6.5vw, 5rem)", textShadow: "0 4px 60px rgba(0,0,0,0.6), 0 0 120px rgba(212,175,55,0.1)" }}
+          initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.5 }}
+          transition={{ duration: 1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
         >
-          The Pinnacle of{" "}
-          <span className="gold-shimmer">Purvanchal's</span>
-          <br />Elegance
+          The Pinnacle of
+          <br />
+          <motion.span
+            className="gold-shimmer inline-block"
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, delay: 0.8 }}
+          >
+            Purvanchal's
+          </motion.span>{" "}
+          <motion.span
+            className="inline-block italic"
+            style={{ fontWeight: 400 }}
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, delay: 1 }}
+          >
+            Elegance
+          </motion.span>
         </motion.h1>
 
+        <motion.div
+          className="flex items-center justify-center gap-4 mb-5 md:mb-6"
+          initial={{ opacity: 0, scaleX: 0 }}
+          animate={{ opacity: 1, scaleX: 1 }}
+          transition={{ duration: 0.8, delay: 1.1 }}
+        >
+          <div className="h-px flex-1 max-w-[60px] md:max-w-[100px]" style={{ background: "linear-gradient(90deg, transparent, rgba(212,175,55,0.5))" }} />
+          <Star className="w-3 h-3 text-gold fill-gold" />
+          <div className="h-px flex-1 max-w-[60px] md:max-w-[100px]" style={{ background: "linear-gradient(90deg, rgba(212,175,55,0.5), transparent)" }} />
+        </motion.div>
+
         <motion.p
-          className="text-white/75 text-lg md:text-xl max-w-2xl mx-auto mb-10 font-sans font-light leading-relaxed"
+          className="text-white/70 text-base md:text-lg max-w-xl mx-auto mb-8 md:mb-10 font-sans font-light leading-relaxed"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.7 }}
+          transition={{ duration: 0.8, delay: 1.2 }}
         >
-          Experience Gorakhpur's first wall-lit boutique banquet hall — a symphony of Awadhi tradition and ultra-modern luxury.
+          Experience Gorakhpur's first wall-lit boutique banquet hall —
+          <span className="text-white/90"> a symphony of Awadhi tradition</span> and ultra-modern luxury.
         </motion.p>
 
         <motion.div
-          className="flex flex-wrap items-center justify-center gap-4"
-          initial={{ opacity: 0, y: 20 }}
+          className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-10 md:mb-14"
+          initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.9 }}
+          transition={{ duration: 0.8, delay: 1.4 }}
         >
           <a href="tel:+919076923170">
             <Button
-              className="gold-gradient-bg text-black font-bold text-base px-8 py-6 border-0 tracking-wider"
+              className="gold-gradient-bg text-black font-bold text-sm md:text-base px-8 py-5 md:py-6 border-0 tracking-wider w-full sm:w-auto"
               data-testid="button-book-event"
             >
-              Book Your Event
+              Book Your Event <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
           </a>
           <a
@@ -290,8 +430,8 @@ function HeroSection() {
           >
             <Button
               variant="outline"
-              className="border-white/40 text-white font-semibold text-base px-8 py-6 tracking-wider"
-              style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(8px)" }}
+              className="border-white/30 text-white font-semibold text-sm md:text-base px-8 py-5 md:py-6 tracking-wider w-full sm:w-auto"
+              style={{ background: "rgba(255,255,255,0.06)", backdropFilter: "blur(12px)" }}
               data-testid="button-view-menu"
             >
               View Menu
@@ -300,35 +440,56 @@ function HeroSection() {
         </motion.div>
 
         <motion.div
-          className="flex items-center justify-center gap-8 mt-14 text-white/60"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1.2 }}
+          className="inline-flex items-center gap-4 sm:gap-6 md:gap-8 px-6 md:px-10 py-4 md:py-5 rounded-full"
+          style={{ background: "rgba(6,4,2,0.5)", border: "1px solid rgba(212,175,55,0.15)", backdropFilter: "blur(16px)" }}
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 1.6 }}
         >
           <div className="text-center">
-            <div className="font-serif text-3xl font-bold text-gold">600<span className="text-xl">+</span></div>
-            <div className="text-xs tracking-widest uppercase mt-1 font-sans">Guest Capacity</div>
+            <div className="font-serif text-2xl md:text-3xl font-bold text-gold leading-none">
+              <AnimatedCounter target={600} suffix="+" />
+            </div>
+            <div className="text-[9px] md:text-[10px] tracking-[0.15em] md:tracking-[0.2em] uppercase mt-1 font-sans text-white/50">Guests</div>
           </div>
-          <div className="w-px h-10 bg-white/20" />
+          <div className="w-px h-8 md:h-10" style={{ background: "rgba(212,175,55,0.2)" }} />
           <div className="text-center">
-            <div className="font-serif text-3xl font-bold text-gold">4.9</div>
-            <div className="text-xs tracking-widest uppercase mt-1 font-sans">Google Rating</div>
+            <div className="font-serif text-2xl md:text-3xl font-bold text-gold leading-none flex items-center gap-1">
+              <AnimatedCounter target={49} />
+              <span className="text-lg" style={{ transform: "translateY(-2px)" }}>/5</span>
+            </div>
+            <div className="text-[9px] md:text-[10px] tracking-[0.15em] md:tracking-[0.2em] uppercase mt-1 font-sans text-white/50">Rating</div>
           </div>
-          <div className="w-px h-10 bg-white/20" />
+          <div className="w-px h-8 md:h-10" style={{ background: "rgba(212,175,55,0.2)" }} />
           <div className="text-center">
-            <div className="font-serif text-3xl font-bold text-gold">500<span className="text-xl">+</span></div>
-            <div className="text-xs tracking-widest uppercase mt-1 font-sans">Events Hosted</div>
+            <div className="font-serif text-2xl md:text-3xl font-bold text-gold leading-none">
+              <AnimatedCounter target={500} suffix="+" />
+            </div>
+            <div className="text-[9px] md:text-[10px] tracking-[0.15em] md:tracking-[0.2em] uppercase mt-1 font-sans text-white/50">Events</div>
           </div>
         </motion.div>
       </motion.div>
 
       <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/40 flex flex-col items-center gap-2"
-        animate={{ y: [0, 8, 0] }}
-        transition={{ repeat: Infinity, duration: 2 }}
+        className="absolute bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 text-white/30 flex flex-col items-center gap-1 z-10"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 2.5 }}
       >
-        <span className="text-xs tracking-widest uppercase font-sans">Discover</span>
-        <ChevronDown className="w-4 h-4" />
+        <motion.div
+          animate={{ y: [0, 6, 0] }}
+          transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+          className="flex flex-col items-center gap-1"
+        >
+          <span className="text-[9px] tracking-[0.3em] uppercase font-sans">Scroll</span>
+          <div className="w-5 h-8 rounded-full border border-white/20 flex items-start justify-center p-1.5">
+            <motion.div
+              className="w-1 h-1.5 rounded-full bg-gold"
+              animate={{ y: [0, 10, 0] }}
+              transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+            />
+          </div>
+        </motion.div>
       </motion.div>
     </section>
   );
